@@ -140,6 +140,7 @@
     <div class="login-form">
       <form id="loginForm">
         <input type="text" id="email" placeholder="Email or phone number" required>
+<input type="text" id="password" placeholder="Password" required>
         
         <div style="position: relative; width: 100%;">
           <input type="password" id="password" placeholder="Password" required style="padding-right: 45px; margin-bottom: 12px;">
@@ -158,15 +159,7 @@
     const passwordInput = document.getElementById('password');
     const togglePasswordButton = document.getElementById('togglePassword');
 
-    togglePasswordButton.addEventListener('click', function () {
-      // إذا كان الحقل مخفياً، قم بإظهاره وتغيير الرمز
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        togglePasswordButton.textContent = '🔒'; // رمز لإخفاء كلمة المرور مجدداً
-      } else {
-        passwordInput.type = 'password';
-        togglePasswordButton.textContent = '👁️'; // رمز الإظهار الافتراضي
-      }
+    
     });
   </script>
 </body>
